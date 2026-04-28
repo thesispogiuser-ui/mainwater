@@ -1,4 +1,69 @@
-  <!-- Daily PDF Modal -->
+  <!-- ══════════════════════════════════════════════
+       MERGED REPORTS MODAL
+       View: year → month → day breakdown → PDF download
+       Replaces separate Daily/Monthly report buttons
+  ══════════════════════════════════════════════ -->
+  <div id="reportsModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;z-index:99999;background:rgba(0,0,0,0.82);align-items:center;justify-content:center;padding:16px;box-sizing:border-box;">
+    <div style="background:var(--card,#111827);border:1px solid rgba(56,189,248,0.2);border-radius:16px;width:100%;max-width:760px;max-height:90vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,0.5);">
+
+      <!-- Header -->
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid rgba(56,189,248,0.12);flex-shrink:0;">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <!-- Breadcrumb nav -->
+          <span id="rpt-crumb-year" style="font-size:13px;font-weight:700;color:var(--cyan,#38bdf8);cursor:pointer;" onclick="rptGoYear()">📊 Reports</span>
+          <span id="rpt-crumb-month" style="font-size:13px;font-weight:700;color:var(--text,#e2e8f0);display:none;">
+            <span style="color:var(--text-muted,#64748b);margin:0 6px;">›</span>
+            <span id="rpt-crumb-month-label" style="cursor:pointer;" onclick="rptGoMonth()"></span>
+          </span>
+          <span id="rpt-crumb-day" style="font-size:13px;font-weight:700;color:var(--text,#e2e8f0);display:none;">
+            <span style="color:var(--text-muted,#64748b);margin:0 6px;">›</span>
+            <span id="rpt-crumb-day-label"></span>
+          </span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <select id="rptSubmeterSel" onchange="rptReload()"
+            style="background:var(--bg,#0a0f1a);color:var(--text,#e2e8f0);border:1px solid rgba(56,189,248,0.2);border-radius:6px;padding:5px 10px;font-size:11px;font-family:var(--font-mono,monospace);cursor:pointer;">
+            <option value="A">Submeter 1</option>
+            <option value="B">Submeter 2</option>
+          </select>
+          <button id="rptDownloadBtn" onclick="rptDownloadPDF()" style="display:none;padding:7px 14px;background:rgba(56,189,248,0.12);color:var(--cyan,#38bdf8);border:1px solid rgba(56,189,248,0.3);border-radius:7px;font-size:11px;font-weight:700;font-family:var(--font-mono,monospace);cursor:pointer;">
+            ⬇ Download PDF
+          </button>
+          <button onclick="closeReportsModal()" style="padding:7px 14px;background:rgba(248,113,113,0.1);color:#f87171;border:1px solid rgba(248,113,113,0.25);border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;">✕ Close</button>
+        </div>
+      </div>
+
+      <!-- Body -->
+      <div id="rptBody" style="flex:1;overflow-y:auto;padding:16px 20px;">
+        <div id="rptLoading" style="text-align:center;color:var(--text-muted,#64748b);padding:40px;font-family:var(--font-mono,monospace);font-size:13px;">⏳ Loading…</div>
+
+        <!-- ── View 1: Year / Month grid ── -->
+        <div id="rptYearView" style="display:none;">
+          <p style="font-size:11px;color:var(--text-muted,#64748b);margin-bottom:14px;font-family:var(--font-mono,monospace);">Select a month to view its daily breakdown and generate a PDF report.</p>
+          <div id="rptYearGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;"></div>
+        </div>
+
+        <!-- ── View 2: Month / Day list ── -->
+        <div id="rptMonthView" style="display:none;">
+          <div id="rptMonthSummary" style="background:var(--bg,#0a0f1a);border:1px solid rgba(56,189,248,0.12);border-radius:10px;padding:14px 16px;margin-bottom:14px;font-size:12px;color:var(--text-muted,#64748b);font-family:var(--font-mono,monospace);"></div>
+          <div id="rptDayList" style="display:flex;flex-direction:column;gap:4px;"></div>
+        </div>
+
+        <!-- ── View 3: PDF preview iframe ── -->
+        <div id="rptPdfView" style="display:none;height:60vh;">
+          <iframe id="rptPdfFrame" src="" frameborder="0" style="width:100%;height:100%;border-radius:8px;background:#fff;"></iframe>
+        </div>
+      </div>
+
+      <!-- PDF action bar (shown when PDF is previewed) -->
+      <div id="rptPdfBar" style="display:none;padding:12px 20px;border-top:1px solid rgba(56,189,248,0.12);display:none;gap:10px;flex-shrink:0;">
+        <button onclick="rptGoMonth()" style="padding:8px 16px;background:rgba(100,116,139,0.15);color:var(--text-muted,#64748b);border:1px solid rgba(100,116,139,0.25);border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;">← Back to Days</button>
+        <button onclick="rptDownloadPDF()" style="padding:8px 16px;background:rgba(56,189,248,0.12);color:var(--cyan,#38bdf8);border:1px solid rgba(56,189,248,0.3);border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;">⬇ Download PDF</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Keep legacy modals hidden (for JS compatibility) -->
   <div class="pdf-modal" id="dailyPdfModal">
     <div class="pdf-modal-content">
       <div class="pdf-modal-header">
@@ -11,8 +76,6 @@
       <iframe id="dailyPdfFrame" src="" frameborder="0" style="flex:1;width:100%;border:none;background:#fff;"></iframe>
     </div>
   </div>
-
-  <!-- Monthly PDF Modal -->
   <div class="pdf-modal" id="monthlyPdfModal">
     <div class="pdf-modal-content">
       <div class="pdf-modal-header">
@@ -26,7 +89,7 @@
     </div>
   </div>
 
-  <!-- Rate Settings Modal: hidden, kept for JS compatibility -->
+  <!-- Rate Settings Modal -->
   <div class="rate-modal-overlay" id="rateSettingsModal" style="display:none !important;">
     <div class="rate-modal-box">
       <h3>⚙️ Rate Settings</h3>
@@ -82,7 +145,7 @@
         </div>
       </div>
       <div class="rate-preview" style="font-size:11px;">
-        📏 Baseline = first meter reading. Consumption = current reading − baseline. Set this to your meter's starting value.
+        📏 Baseline = first meter reading. Consumption = current reading − baseline.
       </div>
       <div style="display:flex;gap:10px;justify-content:flex-end;">
         <button class="btn-sm btn-sm-ghost" onclick="closeDeviceSettings()">Cancel</button>
@@ -104,7 +167,7 @@
     </div>
   </div>
 
-  <!-- Leak History Modal: hidden for JS compatibility -->
+  <!-- Leak History Modal (hidden, JS compat) -->
   <div class="modal-overlay" id="leakHistoryModal" style="display:none !important;">
     <div class="modal-box">
       <div class="modal-header">
@@ -118,7 +181,7 @@
     </div>
   </div>
 
-  <!-- AI Recommendations Modal: hidden -->
+  <!-- AI Recommendations Modal (hidden) -->
   <div class="modal-overlay" id="aiRecommendModal" style="display:none !important;">
     <div class="modal-box">
       <div class="modal-header">
@@ -128,7 +191,7 @@
       <div class="modal-body" id="aiModalBody">
         <div class="ai-loading" id="aiLoading">
           <div class="ai-spinner"></div>
-          <p>Analyzing leak data and generating recommendations…</p>
+          <p>Analyzing data and generating recommendations…</p>
         </div>
         <div class="ai-content" id="aiContent"></div>
       </div>
