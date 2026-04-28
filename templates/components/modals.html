@@ -1,0 +1,136 @@
+  <!-- Daily PDF Modal -->
+  <div class="pdf-modal" id="dailyPdfModal">
+    <div class="pdf-modal-content">
+      <div class="pdf-modal-header">
+        <span class="pdf-modal-title">📄 Daily Report Preview</span>
+        <div class="pdf-modal-actions">
+          <button class="btn-sm btn-sm-green" onclick="generateDailyPDF()">⬇ Download</button>
+          <button class="btn-sm btn-sm-danger" onclick="closeDailyPdfModal()">✕ Close</button>
+        </div>
+      </div>
+      <iframe id="dailyPdfFrame" src="" frameborder="0" style="flex:1;width:100%;border:none;background:#fff;"></iframe>
+    </div>
+  </div>
+
+  <!-- Monthly PDF Modal -->
+  <div class="pdf-modal" id="monthlyPdfModal">
+    <div class="pdf-modal-content">
+      <div class="pdf-modal-header">
+        <span class="pdf-modal-title">📆 Monthly Report Preview</span>
+        <div class="pdf-modal-actions">
+          <button class="btn-sm btn-sm-green" onclick="downloadMonthlyPDFCurrent()">⬇ Download</button>
+          <button class="btn-sm btn-sm-danger" onclick="closeMonthlyPdfModal()">✕ Close</button>
+        </div>
+      </div>
+      <iframe id="monthlyPdfFrame" src="" frameborder="0" style="flex:1;width:100%;border:none;background:#fff;"></iframe>
+    </div>
+  </div>
+
+  <!-- Rate Settings Modal: hidden, kept for JS compatibility -->
+  <div class="rate-modal-overlay" id="rateSettingsModal" style="display:none !important;">
+    <div class="rate-modal-box">
+      <h3>⚙️ Rate Settings</h3>
+      <p>Set the price per cubic meter (m³) of water.</p>
+      <div class="rate-input-row">
+        <label>₱ per m³</label>
+        <input type="number" id="rateInput" min="0.01" step="0.01" value="23" placeholder="e.g. 23"/>
+      </div>
+      <div class="rate-preview" id="ratePreview">
+        Current rate: <span id="ratePreviewVal">₱23.00</span> per m³<br>
+        Example: 10 m³ = <span id="ratePreviewEx">₱230.00</span><br>
+        Example: 40 m³ = <span id="ratePreviewEx30">₱920.00</span>
+      </div>
+      <div style="display:flex;gap:10px;justify-content:flex-end;">
+        <button class="btn-sm btn-sm-ghost" onclick="closeRateSettings()">Cancel</button>
+        <button class="btn-sm btn-sm-gold" onclick="applyRateSettings()">✔ Apply Rate</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Device Settings Modal -->
+  <div class="rate-modal-overlay" id="deviceSettingsModal">
+    <div class="rate-modal-box" style="max-width:520px;">
+      <h3>📡 Device Settings</h3>
+      <p>Set the ESP32 IP addresses for each submeter. Update these when your device gets a new IP.</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0;">
+        <div>
+          <label style="font-size:10px;color:var(--text-muted);font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.5px;">Submeter 1 IP</label>
+          <div style="display:flex;gap:4px;align-items:center;margin-top:4px;">
+            <input type="text" id="esp32IpInputA" value="" style="flex:1;padding:8px 10px;font-size:12px;border-radius:6px;border:1px solid var(--card-border);background:var(--bg);color:var(--text);font-family:var(--font-mono);" placeholder="e.g. 192.168.1.222"/>
+            <span id="ocrModeBadgeA" style="font-size:9px;font-weight:700;font-family:var(--font-mono);background:var(--cyan-dim);color:var(--cyan);border:1px solid rgba(56,189,248,.15);padding:3px 7px;border-radius:4px;">AI</span>
+          </div>
+        </div>
+        <div>
+          <label style="font-size:10px;color:var(--text-muted);font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.5px;">Submeter 2 IP</label>
+          <div style="display:flex;gap:4px;align-items:center;margin-top:4px;">
+            <input type="text" id="esp32IpInputB" value="" style="flex:1;padding:8px 10px;font-size:12px;border-radius:6px;border:1px solid var(--card-border);background:var(--bg);color:var(--text);font-family:var(--font-mono);" placeholder="e.g. 192.168.1.223"/>
+            <span id="ocrModeBadgeB" style="font-size:9px;font-weight:700;font-family:var(--font-mono);background:var(--cyan-dim);color:var(--cyan);border:1px solid rgba(56,189,248,.15);padding:3px 7px;border-radius:4px;">AI</span>
+          </div>
+        </div>
+      </div>
+      <div class="rate-preview" style="font-size:11px;">
+        💡 Find ESP32 IP in your router's connected devices list.
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0 16px;">
+        <div>
+          <label style="font-size:10px;color:var(--text-muted);font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.5px;">Submeter 1 Baseline (m³)</label>
+          <input type="number" step="0.001" id="baselineInputA" value="0" style="width:100%;padding:8px 10px;font-size:12px;border-radius:6px;border:1px solid var(--card-border);background:var(--bg);color:var(--text);font-family:var(--font-mono);margin-top:4px;" placeholder="e.g. 1754"/>
+        </div>
+        <div>
+          <label style="font-size:10px;color:var(--text-muted);font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.5px;">Submeter 2 Baseline (m³)</label>
+          <input type="number" step="0.001" id="baselineInputB" value="0" style="width:100%;padding:8px 10px;font-size:12px;border-radius:6px;border:1px solid var(--card-border);background:var(--bg);color:var(--text);font-family:var(--font-mono);margin-top:4px;" placeholder="e.g. 1304"/>
+        </div>
+      </div>
+      <div class="rate-preview" style="font-size:11px;">
+        📏 Baseline = first meter reading. Consumption = current reading − baseline. Set this to your meter's starting value.
+      </div>
+      <div style="display:flex;gap:10px;justify-content:flex-end;">
+        <button class="btn-sm btn-sm-ghost" onclick="closeDeviceSettings()">Cancel</button>
+        <button class="btn-sm btn-sm-gold" onclick="applyDeviceSettings()">💾 Save & Connect</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Logout Modal -->
+  <div class="logout-modal-overlay" id="logoutModal">
+    <div class="logout-modal">
+      <div class="logout-modal-icon">⚠️</div>
+      <h2>Log out?</h2>
+      <p>You will be redirected to the login page.</p>
+      <div class="logout-modal-btns">
+        <button class="btn-logout-yes" onclick="confirmLogout()">Yes, Logout</button>
+        <button class="btn-logout-no" onclick="closeLogoutModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Leak History Modal: hidden for JS compatibility -->
+  <div class="modal-overlay" id="leakHistoryModal" style="display:none !important;">
+    <div class="modal-box">
+      <div class="modal-header">
+        <span class="modal-title">🔍 Leak Detection History</span>
+        <button class="btn-sm btn-sm-danger" onclick="closeLeakHistory()">✕ Close</button>
+      </div>
+      <div class="modal-body" id="leakHistoryBody">
+        <p id="leakHistoryEmpty" style="color:var(--text-muted);font-size:13px;text-align:center;padding:30px 0;">No leaks recorded yet.</p>
+        <div id="leakHistoryList"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AI Recommendations Modal: hidden -->
+  <div class="modal-overlay" id="aiRecommendModal" style="display:none !important;">
+    <div class="modal-box">
+      <div class="modal-header">
+        <span class="modal-title">🤖 AI Leak Recommendations</span>
+        <button class="btn-sm btn-sm-danger" onclick="closeAIRecommendModal()">✕ Close</button>
+      </div>
+      <div class="modal-body" id="aiModalBody">
+        <div class="ai-loading" id="aiLoading">
+          <div class="ai-spinner"></div>
+          <p>Analyzing leak data and generating recommendations…</p>
+        </div>
+        <div class="ai-content" id="aiContent"></div>
+      </div>
+    </div>
+  </div>

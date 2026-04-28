@@ -1,0 +1,23 @@
+    <!-- Top Bar -->
+    <header class="dash-topbar">
+      <div class="topbar-brand">
+        <div class="topbar-brand-icon">💧</div>
+        <div>
+          <div class="topbar-brand-name">WATER MONITORING</div>
+          <div class="topbar-brand-sub">BSU-LIPA CAMPUS</div>
+        </div>
+      </div>
+
+      <div class="topbar-center">
+        <div class="status-pill">
+          <div class="status-dot"></div>
+          SYSTEM ONLINE
+        </div>
+        <div class="topbar-time" id="dashClock">--:--:--</div>
+      </div>
+
+      <div class="topbar-actions">
+        <button id="adminBtn" class="btn-top btn-top-ghost" onclick="showPage('adminPage')" style="display:none;">🔐 Admin</button>
+        <button class="btn-top btn-top-danger" onclick="logOut()">🔓 Logout</button>
+      </div>
+    </header>

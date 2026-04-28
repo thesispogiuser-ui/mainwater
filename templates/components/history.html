@@ -1,0 +1,33 @@
+      <section id="historySection" class="page">
+        <div class="history-panel">
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:16px;">
+            <h2 style="margin:0;display:flex;align-items:center;gap:10px;">
+              <span>📅 Monthly History</span>
+              <span id="historySubLabel" style="font-size:13px;color:var(--text-muted);font-weight:400;"></span>
+            </h2>
+            <div style="display:flex;gap:8px;align-items:center;">
+              <select id="historySubmeterFilter" class="btn-sm" onchange="renderHistoryMonths()"
+                style="background:var(--bg-card);color:var(--text-primary);border:1px solid var(--border);border-radius:6px;padding:5px 10px;font-size:12px;cursor:pointer;">
+                <option value="all">All Submeters</option>
+              </select>
+              <button class="btn-sm btn-sm-ghost" onclick="showDashPage('dashMain');setSidebarActiveById('dashMain')">← Back</button>
+            </div>
+          </div>
+
+          <!-- Month list view -->
+          <div id="historyMonthView">
+            <p id="historyEmpty" style="color:var(--text-muted);font-size:13px;padding:20px 0;text-align:center;display:none;">No history yet.</p>
+            <ul id="historyMonthList" style="list-style:none;padding:0;margin:0;"></ul>
+          </div>
+
+          <!-- Day drill-down view -->
+          <div id="historyDayView" style="display:none;">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+              <button class="btn-sm btn-sm-ghost" onclick="closeHistoryDayView()">← Months</button>
+              <span id="historyDayTitle" style="font-size:14px;font-weight:600;color:var(--text-primary);"></span>
+            </div>
+            <div id="historyDaySummary" style="background:var(--bg-card);border:1px solid var(--border);border-radius:8px;padding:12px 16px;margin-bottom:12px;font-size:13px;color:var(--text-muted);"></div>
+            <ul id="historyDayList" style="list-style:none;padding:0;margin:0;"></ul>
+          </div>
+        </div>
+      </section>

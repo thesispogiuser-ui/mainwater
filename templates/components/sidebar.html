@@ -1,0 +1,42 @@
+    <aside class="dash-sidebar">
+      <div class="sidebar-section-label">Navigation</div>
+      <button class="nav-btn active" onclick="showDashPage('dashMain');setSidebarActive(this)">
+        <span class="nav-btn-icon">🏠</span> Dashboard
+      </button>
+      <button class="nav-btn" onclick="showDashPage('historySection');setSidebarActive(this)">
+        <span class="nav-btn-icon">📋</span> History
+      </button>
+
+      <div class="sidebar-section-label">Submeters</div>
+      <div class="sidebar-submeter-card">
+        <div class="sidebar-submeter-label">Active Submeter</div>
+        <div class="submeter-btns">
+          <button id="btn-A" class="submeter-btn active" onclick="switchBuilding('A')">
+            <span class="submeter-dot"></span> Submeter 1
+          </button>
+          <button id="btn-B" class="submeter-btn" onclick="switchBuilding('B')">
+            <span class="submeter-dot"></span> Submeter 2
+          </button>
+        </div>
+        <p id="active-bldg-label" style="font-size:11px;color:var(--text-muted);margin-top:8px;font-family:var(--font-mono);">Monitoring: Submeter 1</p>
+      </div>
+
+      <div class="sidebar-section-label">Reports</div>
+      <button class="nav-btn" onclick="previewDailyPDF()">
+        <span class="nav-btn-icon">📄</span> Daily Report
+      </button>
+      <button class="nav-btn" onclick="previewMonthlyPDFCurrent()">
+        <span class="nav-btn-icon">📆</span> Monthly Report
+      </button>
+
+      <div class="sidebar-section-label">Settings</div>
+      <button class="nav-btn" onclick="openDeviceSettings()">
+        <span class="nav-btn-icon">📡</span> Device Settings
+      </button>
+
+      <!-- Hidden sidebar IP inputs for JS compatibility -->
+      <div style="display:none;">
+        <input type="text" id="sidebarIpA" value=""/>
+        <input type="text" id="sidebarIpB" value=""/>
+      </div>
+    </aside>

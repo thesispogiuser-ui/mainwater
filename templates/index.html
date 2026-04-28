@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Water Monitoring — BSU-Lipa</title>
+
+  <!-- External Libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/static/css/hydratrack.css?v=20260417">
+
+  <style>
+    .link-btn {
+      background: none; border: none; padding: 0;
+      color: var(--cyan); font-size: inherit; font-family: inherit;
+      cursor: pointer; text-decoration: underline;
+    }
+    .link-btn:hover { color: var(--text); }
+  </style>
+</head>
+<body>
+
+  <!-- ══ PAGE: LOGIN ══ -->
+  {% include 'components/login.html' %}
+
+  <!-- ══ PAGE: REGISTER ══ -->
+  {% include 'components/register.html' %}
+
+  <!-- ══ PAGE: DASHBOARD ══ -->
+  {% include 'components/dashboard.html' %}
+
+  <!-- ══ PAGE: ADMIN ══ -->
+  {% include 'components/admin.html' %}
+
+  <!-- ══ SCRIPTS ══ -->
+  <script src="/static/js/hydratrack.js?v=20260417"></script>
+
+</body>
+</html>

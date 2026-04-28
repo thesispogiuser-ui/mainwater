@@ -1,0 +1,69 @@
+<!-- ════════════════════════════════════════════════════
+     PAGE: REGISTER
+════════════════════════════════════════════════════ -->
+<div id="registerPage" class="app-page">
+  <div class="auth-shell">
+    <header class="auth-topbar">
+      <div class="auth-brand">
+        <div class="auth-brand-icon">💧</div>
+        <div class="auth-brand-name">WATER MONITORING</div>
+      </div>
+      <div class="auth-clock-badge" id="registerClock">--:--:--</div>
+    </header>
+    <div class="auth-center">
+      <div class="auth-card">
+        <div id="regFormContainer">
+          <div class="auth-icon">📝</div>
+          <h2>Create Account</h2>
+          <p class="subtitle">Request access to the water monitoring dashboard</p>
+          <div class="info-box">⚠️ Your registration requires admin approval before you can log in.</div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+            <div>
+              <label for="regFirst">First Name</label>
+              <input type="text" id="regFirst" placeholder="First name" autocomplete="given-name"/>
+            </div>
+            <div>
+              <label for="regLast">Last Name</label>
+              <input type="text" id="regLast" placeholder="Last name" autocomplete="family-name"/>
+            </div>
+          </div>
+
+          <label for="regUser">Username</label>
+          <input type="text" id="regUser" placeholder="Choose a username" autocomplete="username"/>
+
+          <label for="regEmail">Email</label>
+          <input type="email" id="regEmail" placeholder="your@email.com" autocomplete="email"/>
+
+          <label for="regPass">Password</label>
+          <div class="pw-wrapper">
+            <input type="password" id="regPass" placeholder="Create a strong password" autocomplete="new-password"/>
+            <button type="button" class="toggle-pw" onclick="togglePw('regPass',this)">👁</button>
+          </div>
+
+          <label for="regConfirm">Confirm Password</label>
+          <div class="pw-wrapper">
+            <input type="password" id="regConfirm" placeholder="Confirm your password" autocomplete="new-password"/>
+            <button type="button" class="toggle-pw" onclick="togglePw('regConfirm',this)">👁</button>
+          </div>
+
+          <button class="btn-primary" id="regBtn" onclick="handleRegister()">Submit Registration</button>
+          <div class="auth-error" id="regError"></div>
+          <div class="spinner" id="regSpinner"><div></div><div></div><div></div></div>
+          <div class="auth-link-row">Already have an account? <a href="#" onclick="showPage('loginPage');return false;">Sign in</a></div>
+        </div>
+
+        <div class="auth-success" id="regSuccess">
+          <div class="success-icon">⏳</div>
+          <div class="success-title">Registration Submitted!</div>
+          <div class="success-message">
+            Your account request has been sent to the administrator.<br>
+            You will be able to log in once your account is approved.<br><br>
+            <strong>Please check back later or contact your admin.</strong>
+          </div>
+          <button class="btn-outline" onclick="showPage('loginPage')">Go to Login</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

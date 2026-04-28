@@ -1,0 +1,31 @@
+<!-- ════════════════════════════════════════════════════
+     PAGE: DASHBOARD
+════════════════════════════════════════════════════ -->
+<div id="dashboardPage" class="app-page">
+  <div class="dash-shell">
+
+    <!-- Top Bar -->
+    {% include 'components/topbar.html' %}
+
+    <!-- Sidebar Navigation + Camera Panels -->
+    {% include 'components/sidebar.html' %}
+
+    <!-- Main Content Area -->
+    <main class="dash-content">
+
+      <!-- Dashboard Home -->
+      {% include 'components/dash_main.html' %}
+
+      <!-- Monthly History -->
+      {% include 'components/history.html' %}
+
+      <!-- Charts & Graphs -->
+      {% include 'components/charts.html' %}
+
+    </main><!-- /dash-content -->
+  </div><!-- /dash-shell -->
+
+  <!-- Modals: PDF, Rate Settings, Logout, Leak History, AI Recommendations -->
+  {% include 'components/modals.html' %}
+
+</div><!-- /dashboardPage -->

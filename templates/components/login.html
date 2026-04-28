@@ -1,0 +1,47 @@
+<!-- ════════════════════════════════════════════════════
+     PAGE: LOGIN
+════════════════════════════════════════════════════ -->
+<div id="loginPage" class="app-page active">
+  <div class="auth-shell">
+    <header class="auth-topbar">
+      <div class="auth-brand">
+        <div class="auth-brand-icon">💧</div>
+        <div>
+          <div class="auth-brand-name">WATER MONITORING</div>
+        </div>
+      </div>
+      <div class="auth-clock-badge" id="loginClock">--:--:--</div>
+    </header>
+    <div class="auth-center">
+      <div class="auth-card">
+        <div class="auth-icon">🔐</div>
+        <h2>Welcome Back</h2>
+        <p class="subtitle">Sign in to access the monitoring dashboard</p>
+
+        <label for="loginUser">Username</label>
+        <input type="text" id="loginUser" placeholder="Enter your username" autocomplete="username"/>
+
+        <label for="loginPass">Password</label>
+        <div class="pw-wrapper">
+          <input type="password" id="loginPass" placeholder="Enter your password" autocomplete="current-password"/>
+          <button type="button" class="toggle-pw" onclick="togglePw('loginPass',this)">👁</button>
+        </div>
+
+        <button class="btn-primary" onclick="handleLogin()">Sign In</button>
+
+        <div class="auth-error" id="loginError">⚠ Invalid username or password.</div>
+        <div class="pending-notice" id="pendingNotice">
+          <p>⏳ Your account is pending admin approval.<br>Please wait or contact your administrator.</p>
+        </div>
+        <div class="spinner" id="loginSpinner"><div></div><div></div><div></div></div>
+
+        <hr class="auth-divider"/>
+        <div style="text-align:center;">
+          <p style="color:var(--text-muted);font-size:13px;margin-bottom:10px;">Don't have an account?</p>
+          <button class="btn-outline" onclick="showPage('registerPage')">📝 Request Access</button>
+        </div>
+        <p class="login-hint">New user? <button class="link-btn" onclick="showPage('registerPage')">Request access →</button></p>
+      </div>
+    </div>
+  </div>
+</div>
