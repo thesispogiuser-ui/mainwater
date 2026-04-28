@@ -21,6 +21,12 @@
         <p id="active-bldg-label" style="font-size:11px;color:var(--text-muted);margin-top:8px;font-family:var(--font-mono);">Monitoring: Submeter 1</p>
       </div>
 
+      <div class="sidebar-section-label">Camera</div>
+      <button class="nav-btn" id="manualCaptureBtn" onclick="manualCapture(this)"
+        style="background:rgba(56,189,248,0.08);border:1px solid rgba(56,189,248,0.2);">
+        <span class="nav-btn-icon">📷</span> Manual Capture
+      </button>
+
       <div class="sidebar-section-label">Reports</div>
       <button class="nav-btn" onclick="previewDailyPDF()">
         <span class="nav-btn-icon">📄</span> Daily Report
